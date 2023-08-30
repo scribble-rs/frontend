@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'preact/hooks';
 import logo from '../../assets/logo.svg';
 import kick from '../../assets/kick.png';
+import clock from '../../assets/clock.svg';
+import round from '../../assets/round.svg';
+import user from '../../assets/user.svg';
+import entrance from '../../assets/entrance.svg';
 import './style.css';
 
 function getLobbies() {
@@ -42,17 +46,31 @@ function LobbyList(props) {
 			{props.lobbies.map((lobby) => {
 				return (
 					<div
+						title="Doubleclick to join lobby."
 						onClick={() => props.selectLobby(lobby.lobbyId)}
 						onDblClick={() => joinLobby(lobby.lobbyId)}
 						class={props.selectedLobby !== lobby.lobbyId ? "lobby-list-item" : "lobby-list-item selected"} >
 						{/* FIXME Replace words with iconography, saves us the
 						 effort to translate and looks less cluttered. */}
-						<span style="text-shadow:-2px -2px 0 #AAAAAA, 2px -2px 0 #AAAAAA, -2px 2px 0 #AAAAAA, 2px 2px 0 #AAAAAA;">{languageToFlag(lobby.wordpack)}</span>
-						<span>Players {lobby.playerCount}/{lobby.maxPlayers}</span>
-						<span>Round {lobby.round}/{lobby.rounds}</span>
-						{lobby.votekick ? <img src={kick} style="width: 2rem; height: 2rem;" alt="Votekick enabled" title="Votekick enabled" /> : null}
-						<span>Drawing Time {lobby.drawingTime}</span>
-						<span>Max Clients per IP {lobby.maxClientsPerIp}</span>
+						<span style="font-size: 2rem; text-shadow:-2px -2px 0 #AAAAAA, 2px -2px 0 #AAAAAA, -2px 2px 0 #AAAAAA, 2px 2px 0 #AAAAAA;">{languageToFlag(lobby.wordpack)}</span>
+
+						<div class="lobby-list-item-info-pair">
+							<img class="lobby-list-item-icon" src={user} />
+							<span>{lobby.playerCount}/{lobby.maxPlayers}</span>
+						</div>
+
+						{props.selectedLobby === lobby.lobbyId ?
+							<img src={entrance} style="align-self: center; 	width: 2em; height: 2em; grid-column: 4; grid-row: 1/3;" /> :
+							<span style="width: 2em; height: 2em; grid-column: 4; grid-row: 1/3;" />}
+						<div class="lobby-list-item-info-pair" style="grid-row: 2;" >
+							<img class="lobby-list-item-icon" src={round} />
+							<span>{lobby.round}/{lobby.rounds}</span>
+						</div>
+						<div class="lobby-list-item-info-pair" style="grid-row: 2">
+							<img class="lobby-list-item-icon" src={clock} />
+							<span>{lobby.drawingTime}</span>
+						</div>
+						<span style="grid-row: 2">Max Clients per IP {lobby.maxClientsPerIp}</span>
 					</div>
 				)
 			})}
@@ -137,8 +155,6 @@ function CreateLobby() {
 					<input class="input-item" type="number" name="max_players" min="2" max="24" value="12" />
 					<b>Public</b>
 					<input class="input-item" type="checkbox" name="public" value="true" checked />
-					<b>Enable Votekick</b>
-					<input class="input-item" type="checkbox" name="enable_votekick" value="true" checked />
 					<b>Max Players per IP</b>
 					<input class="input-item" type="number" name="clients_per_ip_limit" min="1" max="24" value="4" />
 					<b>Custom Words Chance</b>
