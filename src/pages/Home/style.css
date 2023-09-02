@@ -1,3 +1,11 @@
+:root {
+	--component-base-color: #205cc8;
+	--component-hover-background: #3f82ff;
+	--component-focus-background: #6090f8;
+	--outline--color: rgb(58, 51, 250);
+	--component-border-radius: 0.5rem;
+}
+
 #logo {
 	width: 50vw;
 	margin-top: 1rem;
@@ -12,6 +20,106 @@
 	column-gap: 1rem;
 	row-gap: 0.5rem;
 	overflow-y: scroll;
+	padding-right: 0.5rem;
+}
+
+.custom-number-wrapper {
+	display: flex;
+	flex-direction: row;
+	padding: 0;
+}
+
+.custom-number-wrapper>button {
+	width: 2rem;
+}
+
+.custom-number-wrapper>input {
+	flex: 1;
+	border-radius: 0;
+	-webkit-appearance: textfield;
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+.custom-number-wrapper>input::-webkit-inner-spin-button,
+.custom-number-wrapper>input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+
+textarea,
+input,
+.number-decrement,
+.number-increment {
+	border: none;
+	outline: none;
+	margin: 0;
+}
+
+.custom-number-wrapper,
+textarea,
+select,
+button {
+	border: 2px solid var(--outline--color);
+}
+
+.custom-number-wrapper,
+button,
+input,
+textarea,
+select {
+	background-color: var(--component-base-color);
+}
+
+input:hover,
+button:hover,
+select:hover,
+textarea:hover,
+.number-decrement:hover,
+.number-increment:hover {
+	background-color: var(--component-hover-background);
+}
+
+input:focus,
+button:focus,
+select:focus,
+textarea:focus,
+.number-decrement:focus,
+.number-increment:focus {
+	background-color: var(--component-focus-background);
+}
+
+.custom-number-wrapper,
+input,
+button,
+select,
+textarea {
+	border-radius: var(--component-border-radius);
+}
+
+.number-decrement {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-right: 1px solid var(--outline--color);
+}
+
+.number-increment {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-left: 1px solid var(--outline--color);
+}
+
+input {
+	padding-left: 0.25rem;
+}
+
+textarea {
+	padding-left: 0.40rem;
+	padding-top: 0.20rem;
+}
+
+.create-button {
+	height: 2rem;
+	flex: 1;
 }
 
 #create-or-join-container {
@@ -78,7 +186,7 @@ textarea.input-item {
 	row-gap: 1rem;
 	display: flex;
 	flex-direction: column;
-	height: 100%
+	height: 100%;
 }
 
 .home-choice {

@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useState, useRef } from 'preact/hooks';
 import logo from '../../assets/logo.svg';
-import kick from '../../assets/kick.png';
 import clock from '../../assets/clock.svg';
 import round from '../../assets/round.svg';
 import user from '../../assets/user.svg';
@@ -50,6 +49,7 @@ function LobbyList(props) {
 						onClick={() => props.selectLobby(lobby.lobbyId)}
 						onDblClick={() => joinLobby(lobby.lobbyId)}
 						class={props.selectedLobby !== lobby.lobbyId ? "lobby-list-item" : "lobby-list-item selected"} >
+
 						{/* FIXME Replace words with iconography, saves us the
 						 effort to translate and looks less cluttered. */}
 						<span style="font-size: 2rem; text-shadow:-2px -2px 0 #AAAAAA, 2px -2px 0 #AAAAAA, -2px 2px 0 #AAAAAA, 2px 2px 0 #AAAAAA;">{languageToFlag(lobby.wordpack)}</span>
@@ -108,17 +108,35 @@ function joinLobby(lobbyId) {
 	window.location.href = 'http://localhost:8080/ssrEnterLobby/' + lobbyId;
 }
 
+function NumberInput(props) {
+	const input = useRef(null);
+	const stepDown = () => input.current && input.current.stepDown();
+	const stepUp = () => input.current && input.current.stepUp();
+
+	return (
+		<div class="custom-number-wrapper">
+			<button class="number-decrement" onClick={stepDown} type="button">-</button>
+			<input ref={input} type="number" name={props.name}
+				min={props.min} max={props.max} value={props.value} />
+			<button class="number-increment" onClick={stepUp} type="button">+</button>
+		</div >
+	)
+}
+
 function CreateLobby() {
 	const createLobby = (event) => {
 		// Prevent page refresh
 		event.preventDefault();
 
-		// FIXME Use URL class
 		const formData = new FormData(event.target);
 		const data = [...formData.entries()];
-		const query = data
+		let query = data
 			.map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1].toString())}`)
 			.join('&');
+		if (event.submitter.id === "create-public") {
+			query += "&public=true";
+		}
+
 		fetch('http://localhost:8080/v1/lobby?' + query, {
 			credentials: 'include',
 			method: 'POST',
@@ -148,27 +166,26 @@ function CreateLobby() {
 						<option value="german" selected>German</option>
 					</select>
 					<b>Drawing Time</b>
-					<input class="input-item" type="number" name="drawing_time" min="60" max="300" value="120" />
+					<NumberInput type="number" name="drawing_time" min="60" max="300" value="120" />
 					<b>Rounds</b>
-					<input class="input-item" type="number" name="rounds" min="1" max="20" value="4" />
+					<NumberInput type="number" name="rounds" min="1" max="20" value="4" />
 					<b>Max Players</b>
-					<input class="input-item" type="number" name="max_players" min="2" max="24" value="12" />
-					<b>Public</b>
-					<input class="input-item" type="checkbox" name="public" value="true" checked />
+					<NumberInput type="number" name="max_players" min="2" max="24" value="12" />
 					<b>Max Players per IP</b>
-					<input class="input-item" type="number" name="clients_per_ip_limit" min="1" max="24" value="4" />
-					<b>Custom Words Chance</b>
-					<div class="input-item percent-slider">
-						<span>0%</span>
-						<input type="range" name="custom_words_chance" min="1" max="100" value="50" />
-						<span>100%</span>
-					</div>
+					<NumberInput type="number" name="clients_per_ip_limit" min="1" max="24" value="4" />
+					<b>Custom Words Per Turn</b>
+					<NumberInput name="custom_words_per_turn" min="1" max="3" value="3" />
 					<b>Custom Words</b>
 					<textarea class="input-item" name="custom_words" placeholder="Comma, separated, word, list, here"></textarea>
 				</form>
-				<button form="lobby-create" type="submit" class="create-button">
-					Create Lobby
-				</button>
+				<div style="display: flex; flex-direction: row; gap: 0.5rem;">
+					<button id="create-public" form="lobby-create" type="submit" class="create-button">
+						Create Public Lobby
+					</button>
+					<button form="lobby-create" type="submit" class="create-button">
+						Create Private Lobby
+					</button>
+				</div>
 			</div>
 		</div >
 	)
