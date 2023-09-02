@@ -4,7 +4,9 @@
 	font-weight: 400;
 
 	color: #222;
-	background-color: rgb(91, 62, 216);
+
+	background: rgb(46, 46, 175);
+	background: linear-gradient(90deg, rgba(46, 46, 175, 1) 0%, rgba(37, 79, 191, 1) 42%, rgba(0, 170, 255, 1) 100%);
 
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
@@ -13,11 +15,22 @@
 	-webkit-text-size-adjust: 100%;
 }
 
-body {
-	margin: 0;
+body::before {
+	content: ' ';
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	opacity: 0.50;
 	background: url("./assets/background.png") repeat;
 	background-size: 400px 400px;
 	background-repeat: repeat;
+	z-index: -1;
+}
+
+body {
+	margin: 0;
 }
 
 textarea {
