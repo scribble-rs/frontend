@@ -4,7 +4,7 @@ import clock from '../../assets/clock.svg';
 import round from '../../assets/round.svg';
 import user from '../../assets/user.svg';
 import entrance from '../../assets/entrance.svg';
-import './style.css';
+import './home.css';
 
 function getLobbies() {
 	return new Promise((resolve, reject) => {
