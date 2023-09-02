@@ -1,8 +1,8 @@
 :root {
-	--component-base-color: #205cc8;
-	--component-hover-background: #3f82ff;
-	--component-focus-background: #6090f8;
-	--outline--color: rgb(58, 51, 250);
+	--component-base-color: #3679f5;
+	--component-hover-background: #5499f3;
+	--component-focus-background: #3a8ffd;
+	--outline--color: #1f6bf8;
 	--component-border-radius: 0.5rem;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .custom-number-wrapper>button {
-	width: 2rem;
+	width: 1.5rem;
 }
 
 .custom-number-wrapper>input {
@@ -115,6 +115,7 @@ input {
 textarea {
 	padding-left: 0.40rem;
 	padding-top: 0.20rem;
+	min-width: 0;
 }
 
 .create-button {
@@ -131,7 +132,7 @@ textarea {
 #create-or-join-container-or {
 	align-self: center;
 	background-color: rgb(238, 229, 233);
-	padding: 1rem;
+	padding: 0.5rem;
 	border-radius: 1.3rem;
 }
 
@@ -146,18 +147,32 @@ textarea.input-item {
 	gap: 0.25rem;
 }
 
+.language-flag {
+	font-size: 2rem;
+	text-shadow:
+		-2px -2px 0 #AAAAAA,
+		2px -2px 0 #AAAAAA,
+		-2px 2px 0 #AAAAAA,
+		2px 2px 0 #AAAAAA;
+}
+
 .lobby-list-item>* {
 	user-select: none;
 }
 
 .lobby-list-item {
 	font-size: 1.5rem;
-	display: grid;
-	grid-template-columns: auto auto auto min-content;
-	row-gap: 0.25rem;
-	column-gap: 1rem;
+	display: flex;
+	flex-direction: row;
 	background-color: white;
 	padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.lobby-list-rows {
+	display: grid;
+	grid-template-columns: 5fr 3fr;
+	gap: 0.25rem;
+	flex: 1;
 }
 
 .lobby-list-item-info-pair {
@@ -173,13 +188,22 @@ textarea.input-item {
 	align-self: center;
 }
 
+.lobby-list-item:hover {
+	background-color: var(--component-hover-background);
+}
+
 .lobby-list-item.selected {
-	background-color: rgb(107, 69, 209);
+	background-color: var(--component-focus-background);
+}
+
+.home-choice-header {
+	display: flex;
 }
 
 .home-choice-title {
-	font-size: 1.5rem;
+	font-size: 1.25rem;
 	font-weight: bold;
+	flex: 1;
 }
 
 .home-choice-inner {
@@ -204,8 +228,35 @@ textarea.input-item {
 	align-items: center;
 }
 
-@media (max-width: 639px) {
+@media (max-width: 850px) {
 	#logo {
 		width: 95vw;
+		max-height: 10vh;
+		margin-left: 2.5vw;
+		margin-right: 2.5vw;
+		margin-top: 0;
+	}
+
+	textarea.input-item {
+		height: 3rem;
+	}
+
+	#create-or-join-container {
+		flex-direction: column;
+		/* 3vh margin + 10vh logo + 87vh = 100vh */
+		height: 87vh;
+	}
+
+	.home-choice {
+		width: 90vw;
+		padding: 3vw;
+	}
+
+	#create-or-join-container>.home-choice:nth-child(1) {
+		height: max-content;
+	}
+
+	#create-or-join-container>.home-choice:nth-child(3) {
+		flex: 1;
 	}
 }

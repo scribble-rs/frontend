@@ -50,27 +50,30 @@ function LobbyList(props) {
 						onDblClick={() => joinLobby(lobby.lobbyId)}
 						class={props.selectedLobby !== lobby.lobbyId ? "lobby-list-item" : "lobby-list-item selected"} >
 
+						<div class="lobby-list-rows">
+							<div style="display: flex; align-items: center; gap:0.5rem">
+								<span class="language-flag">{languageToFlag(lobby.wordpack)}</span>
+								{lobby.customWords ? <span style="font-size: 0.75em; background-color: #DDDDDD; border-radius: 1rem; padding-left: 0.5rem; padding-right: 0.5rem">Custom</span> : null}
+							</div>
+
+							<div class="lobby-list-item-info-pair">
+								<img class="lobby-list-item-icon" src={user} />
+								<span>{lobby.playerCount}/{lobby.maxPlayers}</span>
+							</div>
+							<div class="lobby-list-item-info-pair" style="grid-row: 2;" >
+								<img class="lobby-list-item-icon" src={round} />
+								<span>{lobby.round}/{lobby.rounds}</span>
+							</div>
+							<div class="lobby-list-item-info-pair" style="grid-row: 2">
+								<img class="lobby-list-item-icon" src={clock} />
+								<span>{lobby.drawingTime}</span>
+							</div>
+						</div>
 						{/* FIXME Replace words with iconography, saves us the
 						 effort to translate and looks less cluttered. */}
-						<span style="font-size: 2rem; text-shadow:-2px -2px 0 #AAAAAA, 2px -2px 0 #AAAAAA, -2px 2px 0 #AAAAAA, 2px 2px 0 #AAAAAA;">{languageToFlag(lobby.wordpack)}</span>
-
-						<div class="lobby-list-item-info-pair">
-							<img class="lobby-list-item-icon" src={user} />
-							<span>{lobby.playerCount}/{lobby.maxPlayers}</span>
-						</div>
-
 						{props.selectedLobby === lobby.lobbyId ?
-							<img src={entrance} style="align-self: center; 	width: 2em; height: 2em; grid-column: 4; grid-row: 1/3;" /> :
-							<span style="width: 2em; height: 2em; grid-column: 4; grid-row: 1/3;" />}
-						<div class="lobby-list-item-info-pair" style="grid-row: 2;" >
-							<img class="lobby-list-item-icon" src={round} />
-							<span>{lobby.round}/{lobby.rounds}</span>
-						</div>
-						<div class="lobby-list-item-info-pair" style="grid-row: 2">
-							<img class="lobby-list-item-icon" src={clock} />
-							<span>{lobby.drawingTime}</span>
-						</div>
-						<span style="grid-row: 2">Max Clients per IP {lobby.maxClientsPerIp}</span>
+							<img src={entrance} style="align-self: center; 	width: 2em; height: 2em;" /> :
+							<span style="width: 2em; height: 2em;" />}
 					</div>
 				)
 			})}
@@ -96,8 +99,10 @@ function JoinLobby() {
 	return (
 		<div class="home-choice">
 			<div class="home-choice-inner">
-				<div class="home-choice-title">Join Lobby</div>
-				<button onClick={refresh}>Refresh</button>
+				<div class="home-choice-header">
+					<div class="home-choice-title">Join Lobby</div>
+					<button onClick={refresh}>Refresh</button>
+				</div>
 				<LobbyList error={error} selectedLobby={selectedLobby} selectLobby={setSelectedLobby} lobbies={lobbies} />
 			</div>
 		</div>
@@ -116,7 +121,7 @@ function NumberInput(props) {
 	return (
 		<div class="custom-number-wrapper">
 			<button class="number-decrement" onClick={stepDown} type="button">-</button>
-			<input ref={input} type="number" name={props.name}
+			<input size={4} ref={input} type="number" name={props.name}
 				min={props.min} max={props.max} value={props.value} />
 			<button class="number-increment" onClick={stepUp} type="button">+</button>
 		</div >
@@ -156,7 +161,9 @@ function CreateLobby() {
 	return (
 		<div class="home-choice" >
 			<div class="home-choice-inner">
-				<div class="home-choice-title">Create Lobby</div>
+				<div class="home-choice-header">
+					<div class="home-choice-title">Create Lobby</div>
+				</div>
 				<form onSubmit={createLobby} id="lobby-create">
 					<b>Language</b>
 					<select class="input-item" name="language" placeholder="Choose your language">
