@@ -22,7 +22,7 @@
 
 #create-or-join-container-or {
 	align-self: center;
-	background-color: antiquewhite;
+	background-color: rgb(238, 229, 233);
 	padding: 1rem;
 	border-radius: 1.3rem;
 }
@@ -82,11 +82,11 @@ textarea.input-item {
 }
 
 .home-choice {
-	background-color: antiquewhite;
+	background-color: rgb(238, 229, 233);
 	padding: 1.5rem;
 	border-radius: 1.3rem;
 	overflow: hidden;
-	width: 35vw;
+	width: min(35vw, 35rem);
 	height: 55vh;
 }
 
