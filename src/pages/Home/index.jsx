@@ -28,15 +28,29 @@ function languageToFlag(language) {
 }
 
 function LobbyList(props) {
+	if (props.loading) {
+		return (
+			<div class="lobby-list-placeholder">
+				<svg class="reload-spinner" fill="#000000" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
+					<path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+				</svg>
+			</div>
+		);
+	};
+
 	if (props.error) {
 		return (
-			<b>Error loading lobbies: {props.error.toString()}</b>
+			<div class="lobby-list-placeholder">
+				<b>Error loading lobbies: {props.error.toString()}</b>
+			</div>
 		);
 	}
 
 	if (props.lobbies && props.lobbies.length === 0) {
 		return (
-			<b>There are no lobbies yet.</b>
+			<div class="lobby-list-placeholder">
+				<b>There are no lobbies yet.</b>
+			</div>
 		);
 	}
 
@@ -84,12 +98,16 @@ function LobbyList(props) {
 function JoinLobby() {
 	const [lobbies, setLobbies] = useState([]);
 	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(true);
 	const refresh = () => {
+		setLoading(true);
 		getLobbies().then((data) => {
 			setError(null);
 			setLobbies(data);
 		}).catch((err) => {
 			setError(err);
+		}).finally(() => {
+			setLoading(false);
 		});
 	};
 	useEffect(refresh, []);
@@ -103,7 +121,7 @@ function JoinLobby() {
 					<div class="home-choice-title">Join Lobby</div>
 					<button onClick={refresh}>Refresh</button>
 				</div>
-				<LobbyList error={error} selectedLobby={selectedLobby} selectLobby={setSelectedLobby} lobbies={lobbies} />
+				<LobbyList error={error} loading={loading} selectedLobby={selectedLobby} selectLobby={setSelectedLobby} lobbies={lobbies} />
 			</div>
 		</div>
 	)
