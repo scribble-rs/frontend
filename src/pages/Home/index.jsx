@@ -1,131 +1,7 @@
 import { useEffect, useState, useRef } from 'preact/hooks';
 import logo from '../../assets/logo.svg';
-import clock from '../../assets/clock.svg';
-import round from '../../assets/round.svg';
-import user from '../../assets/user.svg';
-import entrance from '../../assets/entrance.svg';
 import './home.css';
-
-function getLobbies() {
-	return new Promise((resolve, reject) => {
-		fetch('http://localhost:8080/v1/lobby').
-			then((response) => {
-				response.json().then(resolve);
-			}).
-			catch(reject);
-	})
-}
-
-function languageToFlag(language) {
-	switch (language) {
-		case "english":
-			return "🇺🇸";
-		case "english_gb":
-			return "🇬🇧";
-		case "german":
-			return "🇩🇪";
-	}
-}
-
-function LobbyList(props) {
-	if (props.loading) {
-		return (
-			<div class="lobby-list-placeholder">
-				<svg class="reload-spinner" fill="#000000" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
-					<path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
-				</svg>
-			</div>
-		);
-	};
-
-	if (props.error) {
-		return (
-			<div class="lobby-list-placeholder">
-				<b>Error loading lobbies: {props.error.toString()}</b>
-			</div>
-		);
-	}
-
-	if (props.lobbies && props.lobbies.length === 0) {
-		return (
-			<div class="lobby-list-placeholder">
-				<b>There are no lobbies yet.</b>
-			</div>
-		);
-	}
-
-	return (
-		<div id="lobby-list">
-			{props.lobbies.map((lobby) => {
-				return (
-					<div
-						title="Doubleclick to join lobby."
-						onClick={() => props.selectLobby(lobby.lobbyId)}
-						onDblClick={() => joinLobby(lobby.lobbyId)}
-						class={props.selectedLobby !== lobby.lobbyId ? "lobby-list-item" : "lobby-list-item selected"} >
-
-						<div class="lobby-list-rows">
-							<div style="display: flex; align-items: center; gap:0.5rem">
-								<span class="language-flag">{languageToFlag(lobby.wordpack)}</span>
-								{lobby.customWords ? <span style="font-size: 0.75em; background-color: #DDDDDD; border-radius: 1rem; padding-left: 0.5rem; padding-right: 0.5rem">Custom</span> : null}
-							</div>
-
-							<div class="lobby-list-item-info-pair">
-								<img class="lobby-list-item-icon" src={user} />
-								<span>{lobby.playerCount}/{lobby.maxPlayers}</span>
-							</div>
-							<div class="lobby-list-item-info-pair" style="grid-row: 2;" >
-								<img class="lobby-list-item-icon" src={round} />
-								<span>{lobby.round}/{lobby.rounds}</span>
-							</div>
-							<div class="lobby-list-item-info-pair" style="grid-row: 2">
-								<img class="lobby-list-item-icon" src={clock} />
-								<span>{lobby.drawingTime}</span>
-							</div>
-						</div>
-						{/* FIXME Replace words with iconography, saves us the
-						 effort to translate and looks less cluttered. */}
-						{props.selectedLobby === lobby.lobbyId ?
-							<img src={entrance} style="align-self: center; 	width: 2em; height: 2em;" /> :
-							<span style="width: 2em; height: 2em;" />}
-					</div>
-				)
-			})}
-		</div >
-	)
-}
-
-function JoinLobby() {
-	const [lobbies, setLobbies] = useState([]);
-	const [error, setError] = useState(null);
-	const [loading, setLoading] = useState(true);
-	const refresh = () => {
-		setLoading(true);
-		getLobbies().then((data) => {
-			setError(null);
-			setLobbies(data);
-		}).catch((err) => {
-			setError(err);
-		}).finally(() => {
-			setLoading(false);
-		});
-	};
-	useEffect(refresh, []);
-
-	const [selectedLobby, setSelectedLobby] = useState(null);
-
-	return (
-		<div class="home-choice">
-			<div class="home-choice-inner">
-				<div class="home-choice-header">
-					<div class="home-choice-title">Join Lobby</div>
-					<button onClick={refresh}>Refresh</button>
-				</div>
-				<LobbyList error={error} loading={loading} selectedLobby={selectedLobby} selectLobby={setSelectedLobby} lobbies={lobbies} />
-			</div>
-		</div>
-	)
-}
+import { JoinLobby } from './JoinLobby';
 
 function joinLobby(lobbyId) {
 	window.location.href = 'http://localhost:8080/ssrEnterLobby/' + lobbyId;
@@ -224,7 +100,7 @@ export function Home() {
 			<div id="create-or-join-container">
 				<CreateLobby />
 				<b id="create-or-join-container-or">OR</b>
-				<JoinLobby />
+				<JoinLobby joinLobby={joinLobby} />
 			</div>
 		</div >
 	);

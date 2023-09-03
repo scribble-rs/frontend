@@ -137,62 +137,6 @@ textarea.input-item {
 	height: 5rem;
 }
 
-#lobby-list {
-	display: flex;
-	flex-direction: column;
-	overflow-y: scroll;
-	gap: 0.25rem;
-}
-
-.language-flag {
-	font-size: 2rem;
-	text-shadow:
-		-2px -2px 0 #AAAAAA,
-		2px -2px 0 #AAAAAA,
-		-2px 2px 0 #AAAAAA,
-		2px 2px 0 #AAAAAA;
-}
-
-.lobby-list-item>* {
-	user-select: none;
-}
-
-.lobby-list-item {
-	font-size: 1.5rem;
-	display: flex;
-	flex-direction: row;
-	background-color: white;
-	padding: 0.5rem 1rem 0.5rem 1rem;
-}
-
-.lobby-list-rows {
-	display: grid;
-	grid-template-columns: 5fr 3fr;
-	gap: 0.25rem;
-	flex: 1;
-}
-
-.lobby-list-item-info-pair {
-	display: flex;
-	flex-direction: row;
-	gap: 0.5rem;
-	align-items: center;
-}
-
-.lobby-list-item-icon {
-	width: 2rem;
-	height: 2rem;
-	align-self: center;
-}
-
-.lobby-list-item:hover {
-	background-color: var(--component-hover-background);
-}
-
-.lobby-list-item.selected {
-	background-color: var(--component-focus-background);
-}
-
 .home-choice-header {
 	display: flex;
 }
@@ -225,32 +169,6 @@ textarea.input-item {
 	align-items: center;
 }
 
-.lobby-list-placeholder {
-	display: flex;
-	width: 100%;
-	flex: 1;
-}
-
-.lobby-list-placeholder>* {
-	margin: auto;
-	max-width: 80%;
-}
-
-.reload-spinner {
-	animation-name: spin;
-	animation-duration: 1000ms;
-	animation-iteration-count: infinite;
-}
-
-@keyframes spin {
-	from {
-		transform: rotate(0deg);
-	}
-
-	to {
-		transform: rotate(360deg);
-	}
-}
 
 @media (max-width: 850px) and (orientation: landscape) {
 	.home {
