@@ -52,7 +52,7 @@ textarea {
 	max-height: 100vh;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 850px) and (orientation: portrait) {
 	main {
 		margin: 1.5vh;
 	}
