@@ -1,4 +1,10 @@
 :root {
+	--component-base-color: #4485ff;
+	--component-hover-background: #5499f3;
+	--component-focus-background: #3a8ffd;
+	--outline--color: #1f6bf8;
+	--component-border-radius: 0.5rem;
+
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
 	font-weight: 400;
@@ -15,11 +21,48 @@
 	-webkit-text-size-adjust: 100%;
 }
 
+* {
+	border: none;
+	outline: none;
+	margin: 0;
+}
+
+
 select,
 input,
 button,
 textarea {
 	color: rgb(238, 230, 230);
+	background-color: var(--component-base-color);
+	border-radius: var(--component-border-radius);
+	border: 2px hidden var(--outline--color);
+}
+
+input:hover,
+button:hover,
+select:hover,
+textarea:hover {
+	background-color: var(--component-hover-background);
+}
+
+input:focus,
+button:focus,
+select:focus,
+textarea:focus {
+	background-color: var(--component-focus-background);
+}
+
+input,
+select {
+	padding-left: 0.35rem;
+	padding-right: 0.35rem;
+}
+
+textarea {
+	padding-left: 0.40rem;
+	padding-top: 0.20rem;
+	min-width: 0;
+	resize: none;
 }
 
 body::before {
@@ -35,14 +78,6 @@ body::before {
 	background-size: 400px 400px;
 	background-repeat: repeat;
 	z-index: -1;
-}
-
-body {
-	margin: 0;
-}
-
-textarea {
-	resize: none;
 }
 
 #app {

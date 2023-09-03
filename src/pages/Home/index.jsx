@@ -1,95 +1,10 @@
-import { useEffect, useState, useRef } from 'preact/hooks';
 import logo from '../../assets/logo.svg';
 import './home.css';
-import { JoinLobby } from './JoinLobby';
+import { JoinLobby } from './JoinLobby/join';
+import { CreateLobby } from './CreateLobby/create';
 
 function joinLobby(lobbyId) {
 	window.location.href = 'http://localhost:8080/ssrEnterLobby/' + lobbyId;
-}
-
-function NumberInput(props) {
-	const input = useRef(null);
-	const stepDown = () => input.current && input.current.stepDown();
-	const stepUp = () => input.current && input.current.stepUp();
-
-	return (
-		<div class="custom-number-wrapper">
-			<button class="number-decrement" onClick={stepDown} type="button">-</button>
-			<input size={4} ref={input} type="number" name={props.name}
-				min={props.min} max={props.max} value={props.value} />
-			<button class="number-increment" onClick={stepUp} type="button">+</button>
-		</div >
-	)
-}
-
-function CreateLobby() {
-	const createLobby = (event) => {
-		// Prevent page refresh
-		event.preventDefault();
-
-		const formData = new FormData(event.target);
-		const data = [...formData.entries()];
-		let query = data
-			.map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1].toString())}`)
-			.join('&');
-		if (event.submitter.id === "create-public") {
-			query += "&public=true";
-		}
-
-		fetch('http://localhost:8080/v1/lobby?' + query, {
-			credentials: 'include',
-			method: 'POST',
-		}).then((response) => {
-			if (response.status === 200 || response.status === 201) {
-				response.json().then((data) => {
-					joinLobby(data.lobbyId);
-				});
-			}
-		}).catch((error) => {
-			console.error(error);
-		});
-
-		return true;
-	};
-
-	return (
-		<div class="home-choice" >
-			<div class="home-choice-inner">
-				<div class="home-choice-header">
-					<div class="home-choice-title">Create Lobby</div>
-				</div>
-				<form onSubmit={createLobby} id="lobby-create">
-					<b>Language</b>
-					<select class="input-item" name="language" placeholder="Choose your language">
-						{/* FIXME Get languages from server */}
-						<option value="english" selected>English (US)</option>
-						<option value="english_gb" selected>English (GB)</option>
-						<option value="german" selected>German</option>
-					</select>
-					<b>Drawing Time</b>
-					<NumberInput type="number" name="drawing_time" min="60" max="300" value="120" />
-					<b>Rounds</b>
-					<NumberInput type="number" name="rounds" min="1" max="20" value="4" />
-					<b>Max Players</b>
-					<NumberInput type="number" name="max_players" min="2" max="24" value="12" />
-					<b>Max Players per IP</b>
-					<NumberInput type="number" name="clients_per_ip_limit" min="1" max="24" value="4" />
-					<b>Custom Words Per Turn</b>
-					<NumberInput name="custom_words_per_turn" min="1" max="3" value="3" />
-					<b>Custom Words</b>
-					<textarea class="input-item" name="custom_words" placeholder="Comma, separated, word, list, here"></textarea>
-				</form>
-				<div style="display: flex; flex-direction: row; gap: 0.5rem;">
-					<button id="create-public" form="lobby-create" type="submit" class="create-button">
-						Create Public Lobby
-					</button>
-					<button form="lobby-create" type="submit" class="create-button">
-						Create Private Lobby
-					</button>
-				</div>
-			</div>
-		</div >
-	)
 }
 
 export function Home() {
@@ -97,9 +12,9 @@ export function Home() {
 		<div class="home">
 			< img id="logo" src={logo} alt="Scribble.rs logo" />
 
-			<div id="create-or-join-container">
-				<CreateLobby />
-				<b id="create-or-join-container-or">OR</b>
+			<div id="home-choices">
+				<CreateLobby joinLobby={joinLobby} />
+				<b id="home-choices-or">OR</b>
 				<JoinLobby joinLobby={joinLobby} />
 			</div>
 		</div >

@@ -1,0 +1,43 @@
+.number-input {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    background-color: var(--component-base-color);
+    border-radius: var(--component-border-radius);
+    border: 2px hidden var(--outline--color);
+}
+
+.number-input>button {
+    width: 1.5rem;
+    background-color: color-mix(in srgb, var(--component-base-color), #000 5%)
+}
+
+.number-input>button:hover {
+    background-color: var(--component-hover-background);
+}
+
+.number-input>button:focus {
+    background-color: var(--component-focus-background);
+}
+
+.number-decrement {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.number-increment {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.number-input>input {
+    flex: 1;
+    border-radius: 0;
+    -webkit-appearance: textfield;
+    appearance: textfield;
+}
+
+.number-input>input::-webkit-inner-spin-button,
+.number-input>input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

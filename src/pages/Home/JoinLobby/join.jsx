@@ -3,7 +3,7 @@ import clock from '../../../assets/clock.svg';
 import round from '../../../assets/round.svg';
 import user from '../../../assets/user.svg';
 import entrance from '../../../assets/entrance.svg';
-import './join_lobby.css';
+import './join.css';
 import { ReloadSpinner } from '../../../components/ReloadSpinner/spinner';
 
 
