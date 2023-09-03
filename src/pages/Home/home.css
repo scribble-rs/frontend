@@ -73,6 +73,7 @@ input,
 textarea,
 select {
 	background-color: var(--component-base-color);
+	border-radius: var(--component-border-radius);
 }
 
 input:hover,
@@ -91,14 +92,6 @@ textarea:focus,
 .number-decrement:focus,
 .number-increment:focus {
 	background-color: var(--component-focus-background);
-}
-
-.custom-number-wrapper,
-input,
-button,
-select,
-textarea {
-	border-radius: var(--component-border-radius);
 }
 
 .number-decrement {
