@@ -64,3 +64,11 @@
     margin: auto;
     max-width: 80%;
 }
+
+.custom-tag {
+    font-size: 0.75em;
+    background-color: #DDD;
+    border-radius: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem
+}

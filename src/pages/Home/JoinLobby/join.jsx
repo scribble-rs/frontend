@@ -99,7 +99,7 @@ function LobbyList(props) {
                         <div class="lobby-list-rows">
                             <div style="display: flex; align-items: center; gap:0.5rem">
                                 <span class="language-flag">{languageToFlag(lobby.wordpack)}</span>
-                                {lobby.customWords ? <span style="font-size: 0.75em; background-color: #DDDDDD; border-radius: 1rem; padding-left: 0.5rem; padding-right: 0.5rem">Custom</span> : null}
+                                {lobby.customWords ? <span class="custom-tag">Custom</span> : null}
                             </div>
 
                             <div class="lobby-list-item-info-pair">
