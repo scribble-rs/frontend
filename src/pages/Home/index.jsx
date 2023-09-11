@@ -1,6 +1,6 @@
 import logo from '../../assets/logo.svg';
 import './home.css';
-import { JoinLobby } from './JoinLobby/join';
+import { LobbyChooser } from './LobbyChooser/join';
 import { CreateLobby } from './CreateLobby/create';
 
 function joinLobby(lobbyId) {
@@ -15,7 +15,7 @@ export function Home() {
 			<div id="home-choices">
 				<CreateLobby joinLobby={joinLobby} />
 				<b id="home-choices-or">OR</b>
-				<JoinLobby joinLobby={joinLobby} />
+				<LobbyChooser joinLobby={joinLobby} />
 			</div>
 		</div >
 	);

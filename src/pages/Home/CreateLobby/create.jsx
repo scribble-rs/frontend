@@ -24,6 +24,8 @@ export function CreateLobby(props) {
                     props.joinLobby(data.lobbyId);
                 });
             }
+
+            // FIXME Catch error
         }).catch((error) => {
             console.error(error);
         });
@@ -38,24 +40,24 @@ export function CreateLobby(props) {
                     <div class="home-choice-title">Create Lobby</div>
                 </div>
                 <form onSubmit={createLobby} id="lobby-create">
-                    <b>Language</b>
+                    <span class="lobby-create-label">Language</span>
                     <select class="input-item" name="language" placeholder="Choose your language">
                         {/* FIXME Get languages from server */}
                         <option value="english" selected>English (US)</option>
                         <option value="english_gb" selected>English (GB)</option>
                         <option value="german" selected>German</option>
                     </select>
-                    <b>Drawing Time</b>
+                    <span class="lobby-create-label">Drawing Time</span>
                     <NumberInput type="number" name="drawing_time" min="60" max="300" value="120" />
-                    <b>Rounds</b>
+                    <span class="lobby-create-label">Rounds</span>
                     <NumberInput type="number" name="rounds" min="1" max="20" value="4" />
-                    <b>Max Players</b>
+                    <span class="lobby-create-label">Max Players</span>
                     <NumberInput type="number" name="max_players" min="2" max="24" value="12" />
-                    <b>Max Players per IP</b>
+                    <span class="lobby-create-label">Max Players per IP</span>
                     <NumberInput type="number" name="clients_per_ip_limit" min="1" max="24" value="4" />
-                    <b>Custom Words Per Turn</b>
+                    <span class="lobby-create-label">Custom Words Per Turn</span>
                     <NumberInput name="custom_words_per_turn" min="1" max="3" value="3" />
-                    <b>Custom Words</b>
+                    <span class="lobby-create-label">Custom Words</span>
                     <textarea class="input-item" name="custom_words" placeholder="Comma, separated, word, list, here"></textarea>
                 </form>
                 <div style="display: flex; flex-direction: row; gap: 0.5rem;">

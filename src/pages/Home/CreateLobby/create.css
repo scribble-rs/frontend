@@ -3,8 +3,12 @@
     grid-template-columns: max-content auto;
     column-gap: 1rem;
     row-gap: 0.5rem;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding-right: 0.5rem;
+}
+
+.lobby-create-label {
+    font-weight: 600;
 }
 
 .create-button {

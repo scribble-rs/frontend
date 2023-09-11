@@ -17,7 +17,7 @@ function getLobbies() {
     })
 }
 
-export function JoinLobby(props) {
+export function LobbyChooser(props) {
     const [lobbies, setLobbies] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -43,7 +43,13 @@ export function JoinLobby(props) {
                     <div class="home-choice-title">Join Lobby</div>
                     <button onClick={refresh}>Refresh</button>
                 </div>
-                <LobbyList error={error} loading={loading} selectedLobby={selectedLobby} selectLobby={setSelectedLobby} lobbies={lobbies} />
+                <LobbyList
+                    joinLobby={props.joinLobby}
+                    error={error}
+                    loading={loading}
+                    selectedLobby={selectedLobby}
+                    selectLobby={setSelectedLobby}
+                    lobbies={lobbies} />
             </div>
         </div>
     )
@@ -116,7 +122,7 @@ function LobbyList(props) {
                             </div>
                         </div>
                         {/* FIXME Replace words with iconography, saves us the
-						 effort to translate and looks less cluttered. */}
+                         effort to translate and looks less cluttered. */}
                         {props.selectedLobby === lobby.lobbyId ?
                             <img src={entrance} style="align-self: center; 	width: 2em; height: 2em;" /> :
                             <span style="width: 2em; height: 2em;" />}
