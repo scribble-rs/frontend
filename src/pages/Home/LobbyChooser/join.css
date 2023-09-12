@@ -6,6 +6,7 @@
 }
 
 .language-flag {
+    line-height: 2rem;
     font-size: 2rem;
     text-shadow:
         -2px -2px 0 #AAA,
@@ -27,10 +28,17 @@
 }
 
 .lobby-list-rows {
-    display: grid;
-    grid-template-columns: 5fr 3fr;
-    gap: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
     flex: 1;
+}
+
+.lobby-list-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    align-items: center;
 }
 
 .lobby-list-item-info-pair {
@@ -40,6 +48,26 @@
     align-items: center;
 }
 
+.loading {
+    border-radius: 0.75rem;
+    background-color: black;
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-color: rgb(161, 160, 160);
+    }
+
+    50% {
+        background-color: rgb(228, 228, 228);
+    }
+
+    100% {
+        background-color: rgb(161, 160, 160);
+    }
+}
+
 .lobby-list-item-icon {
     width: 2rem;
     height: 2rem;
@@ -47,12 +75,12 @@
 }
 
 .lobby-list-item:hover {
-    background-color: var(--component-hover-background);
+    background-color: var(--component-hover-lighter-background);
 }
 
-.lobby-list-item.selected {
+/* .lobby-list-item.selected {
     background-color: var(--component-focus-background);
-}
+} */
 
 .lobby-list-placeholder {
     display: flex;
@@ -63,6 +91,13 @@
 .lobby-list-placeholder>* {
     margin: auto;
     max-width: 80%;
+}
+
+.join-button {
+    align-self: center;
+    height: 3rem;
+    width: 5rem;
+    font-size: 1.5rem;
 }
 
 .custom-tag {

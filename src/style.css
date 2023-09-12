@@ -1,7 +1,9 @@
 :root {
 	--component-base-color: #4485ff;
 	--component-hover-background: #5499f3;
-	--component-focus-background: #3a8ffd;
+	--component-hover-lighter-background: #96c4ff;
+	--component-focus-background: #509cff;
+	--component-active-background: #2966b6;
 	--outline--color: #1f6bf8;
 	--component-border-radius: 0.5rem;
 
@@ -49,6 +51,10 @@ button:focus,
 select:focus,
 textarea:focus {
 	background-color: var(--component-focus-background);
+}
+
+button:active {
+	background-color: var(--component-active-background);
 }
 
 input,
