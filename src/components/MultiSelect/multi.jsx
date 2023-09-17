@@ -4,16 +4,14 @@ import './multi.css';
 export function MultiSelect(props) {
     const [popupVisible, setPopupVisible] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState([]);
-
-    const options = ["abc", "def", "ghi", "jkl", "mno", "pqr", "stu", "vwx", "yz"];
-    const [filteredOptions, setFilteredOptions] = useState([...options]);
-
+    const [filteredOptions, setFilteredOptions] = useState([...props.options]);
     const inputField = useRef(null);
-    const filterDupes = (option) => {
+
+    const filterAlreadySelected = (option) => {
         return !selectedOptions.includes(option);
     };
     const resetFilteredOptions = () => {
-        setFilteredOptions([...options.filter(filterDupes)]);
+        setFilteredOptions([...props.options.filter(filterAlreadySelected)]);
     };
 
     useEffect(() => {
@@ -26,11 +24,11 @@ export function MultiSelect(props) {
             return;
         }
 
-        setFilteredOptions([...options.
+        setFilteredOptions([...props.options.
             filter((option) => {
-                return option.includes(event.target.value)
+                return props.matchOption(option, event.target.value)
             }).
-            filter(filterDupes)
+            filter(filterAlreadySelected)
         ]);
     };
     const selectOption = (option) => {
@@ -39,8 +37,7 @@ export function MultiSelect(props) {
         setPopupVisible(false);
     };
     const submitOption = (event) => {
-        // Only submit on enter or space
-        if (event.keyCode !== 13 && event.keyCode !== 32) {
+        if (event.key !== "Enter") {
             return;
         }
 
@@ -51,8 +48,11 @@ export function MultiSelect(props) {
             return;
         }
 
-        if (filteredOptions.includes(event.target.value)) {
-            setSelectedOptions([...selectedOptions, event.target.value]);
+        // FIXME Matches should be sorted by accuracy and the most accurate
+        // one should be chosen. There should be no extra code here.
+        const matchingOption = filteredOptions.find((option) => props.matchOption(option, event.target.value));
+        if (matchingOption) {
+            setSelectedOptions([...selectedOptions, matchingOption]);
         } else {
             setSelectedOptions([...selectedOptions, filteredOptions[0]]);
         }
@@ -63,7 +63,6 @@ export function MultiSelect(props) {
     const inputFocusGained = () => {
         setPopupVisible(true);
     };
-
     const inputFocusLost = (event) => {
         const classList = event.explicitOriginalTarget.classList;
         if (!classList || (
@@ -74,11 +73,11 @@ export function MultiSelect(props) {
     };
 
     return (
-        <div>
+        <>
             <div class={(popupVisible ? "multi-select-popup-visible multi-select" : "multi-select")}>
                 {selectedOptions.map((option) => {
                     return <div class="multi-select-option">
-                        <span>{option}</span>
+                        {props.renderOptionSimple(option)}
                         <span class="multi-select-option-remove" onClick={() => {
                             setSelectedOptions([...selectedOptions.filter((selectedOption) => {
                                 return selectedOption !== option;
@@ -96,20 +95,22 @@ export function MultiSelect(props) {
                     type="text"
                     placeholder={props.placeholder}
                     onKeyPress={submitOption} />
+                {
+                    popupVisible &&
+                    (<div class="multi-select-popup">
+                        {filteredOptions.map((option) => {
+                            return <div
+                                class="multi-select-popup-option"
+                                onClick={(event) => {
+                                    event.preventDefault();
+                                    selectOption(option);
+                                }}>
+                                {props.renderOptionDetailed(option)}
+                            </div>;
+                        })}
+                    </div>)
+                }
             </div>
-            {
-                popupVisible &&
-                (<div class="multi-select-popup">
-                    {filteredOptions.map((option) => {
-                        return <div
-                            class="multi-select-popup-option"
-                            onClick={(event) => {
-                                event.preventDefault();
-                                selectOption(option);
-                            }}>{option}</div>;
-                    })}
-                </div>)
-            }
-        </div >
+        </ >
     );
 }

@@ -22,6 +22,10 @@
     background-color: var(--component-hover-background);
 }
 
+.multi-select-popup-option>* {
+    pointer-events: none;
+}
+
 .multi-select-option {
     border-radius: var(--component-border-radius);
     background-color: var(--component-hover-background);

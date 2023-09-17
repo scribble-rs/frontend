@@ -26,3 +26,8 @@ textarea.input-item {
         height: 3rem;
     }
 }
+
+.language-option {
+    display: flex;
+    flex-direction: row;
+}

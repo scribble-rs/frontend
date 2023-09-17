@@ -1,3 +1,4 @@
+import { useState } from "preact/hooks";
 import { MultiSelect } from "../../../components/MultiSelect/multi";
 import { NumberInput } from "../../../components/NumberInput/number";
 import "./create.css"
@@ -33,6 +34,41 @@ export function CreateLobby(props) {
 
         return true;
     };
+    const convertToSearchable = (langaugeOption) => {
+        return {
+            ...langaugeOption,
+            // FIXME Remove special chars and spaces?
+            searchValue: langaugeOption.renderValue.toLowerCase(),
+        };
+    }
+
+    // FIXME Replace with real data from server.
+    const [languageOptions, setLanguageOptions] = useState([
+        convertToSearchable({
+            id: "english_us",
+            renderValue: "English US (Offical)",
+            languageCode: "en-US",
+            languageRenderValue: "English US",
+        }),
+        convertToSearchable({
+            id: "english_gb",
+            renderValue: "English GB (Offical)",
+            languageCode: "en-GB",
+            languageRenderValue: "English",
+        }),
+        convertToSearchable({
+            id: "german",
+            renderValue: "Deutsch (Official)",
+            languageCode: "de-DE",
+            languageRenderValue: "German",
+        }),
+        convertToSearchable({
+            id: "custom",
+            renderValue: "Custom Wordpack",
+            languageCode: "de-DE",
+            languageRenderValue: "German",
+        }),
+    ]);
 
     return (
         <div class="home-choice" >
@@ -42,7 +78,21 @@ export function CreateLobby(props) {
                 </div>
                 <form onSubmit={createLobby} id="lobby-create">
                     <span class="lobby-create-label">Language</span>
-                    <MultiSelect placeholder="Focus to pick languages" />
+                    <MultiSelect
+                        placeholder="Focus to pick languages"
+                        options={languageOptions}
+                        renderOptionSimple={(option) => {
+                            return <span>{option.renderValue}</span>;
+                        }}
+                        renderOptionDetailed={(option) => {
+                            return <div class="language-option">
+                                <span style="flex:1">{option.renderValue}</span>
+                                <span>{option.languageRenderValue}</span>
+                            </div>
+                        }}
+                        matchOption={(option, value) => {
+                            return option.searchValue.includes(value.toLowerCase());
+                        }} />
                     <span class="lobby-create-label">Drawing Time</span>
                     <NumberInput type="number" name="drawing_time" min="60" max="300" value="120" />
                     <span class="lobby-create-label">Rounds</span>
