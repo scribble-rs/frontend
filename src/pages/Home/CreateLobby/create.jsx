@@ -42,7 +42,7 @@ export function CreateLobby(props) {
                 </div>
                 <form onSubmit={createLobby} id="lobby-create">
                     <span class="lobby-create-label">Language</span>
-                    <MultiSelect />
+                    <MultiSelect placeholder="Focus to pick languages" />
                     <span class="lobby-create-label">Drawing Time</span>
                     <NumberInput type="number" name="drawing_time" min="60" max="300" value="120" />
                     <span class="lobby-create-label">Rounds</span>

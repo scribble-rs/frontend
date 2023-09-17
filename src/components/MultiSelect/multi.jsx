@@ -1,4 +1,4 @@
-import { useRef, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import './multi.css';
 
 export function MultiSelect(props) {
@@ -9,16 +9,35 @@ export function MultiSelect(props) {
     const [filteredOptions, setFilteredOptions] = useState([...options]);
 
     const inputField = useRef(null);
+    const filterDupes = (option) => {
+        return !selectedOptions.includes(option);
+    };
+    const resetFilteredOptions = () => {
+        setFilteredOptions([...options.filter(filterDupes)]);
+    };
+
+    useEffect(() => {
+        resetFilteredOptions();
+    }, [selectedOptions]);
 
     const onChange = (event) => {
         if (event.target.value === "") {
-            setFilteredOptions([...options]);
+            resetFilteredOptions();
             return;
         }
 
-        setFilteredOptions([...options.filter((option) => {
-            return option.includes(event.target.value)
-        })]);
+        setFilteredOptions([...options.
+            filter((option) => {
+                return option.includes(event.target.value)
+            }).
+            filter(filterDupes)
+        ]);
+    };
+    const selectOption = (option) => {
+        console.log(option);
+        setSelectedOptions([...selectedOptions, option]);
+        inputField.current.value = "";
+        setPopupVisible(false);
     };
     const submitOption = (event) => {
         // Only submit on enter or space
@@ -29,42 +48,65 @@ export function MultiSelect(props) {
         // Prevent form submission
         event.preventDefault();
 
-        // Only if the input is not empty
-        if (options.includes(event.target.value)) {
-            setSelectedOptions([...selectedOptions, event.target.value]);
-            inputField.current.value = "";
+        if (filteredOptions.length === 0) {
+            return;
         }
+
+        if (filteredOptions.includes(event.target.value)) {
+            setSelectedOptions([...selectedOptions, event.target.value]);
+        } else {
+            setSelectedOptions([...selectedOptions, filteredOptions[0]]);
+        }
+
+        inputField.current.value = "";
     };
 
-    const showPopup = () => {
+    const inputFocusGained = () => {
         setPopupVisible(true);
     };
 
-    const hidePopup = () => {
-        setPopupVisible(false);
+    const inputFocusLost = (event) => {
+        if (!event.explicitOriginalTarget.classList.contains("multi-select-popup-option")) {
+            setPopupVisible(false);
+        }
     };
 
     return (
         <div>
-            <div class="multi-select">
+            <div class={(popupVisible ? "multi-select-popup-visible multi-select" : "multi-select")}>
                 {selectedOptions.map((option) => {
-                    return <span class="multi-select-option">{option}</span>;
+                    return <div class="multi-select-option">
+                        <span>{option}</span>
+                        <span class="multi-select-option-remove" onClick={() => {
+                            setSelectedOptions([...selectedOptions.filter((selectedOption) => {
+                                return selectedOption !== option;
+                            })]);
+                        }}>x</span>
+                    </div>;
                 })}
                 <input
+                    class="multi-select-input"
                     ref={inputField}
                     onInput={onChange}
-                    onfocusin={showPopup}
-                    onfocusout={hidePopup}
+                    onfocusin={inputFocusGained}
+                    onfocusout={inputFocusLost}
                     type="text"
+                    placeholder={props.placeholder}
                     onKeyPress={submitOption} />
             </div>
-            {popupVisible &&
+            {
+                popupVisible &&
                 (<div class="multi-select-popup">
                     {filteredOptions.map((option) => {
-                        return <span>{option}</span>;
+                        return <div
+                            class="multi-select-popup-option"
+                            onClick={(event) => {
+                                event.preventDefault();
+                                selectOption(option);
+                            }}>{option}</div>;
                     })}
                 </div>)
             }
-        </div>
+        </div >
     );
 }

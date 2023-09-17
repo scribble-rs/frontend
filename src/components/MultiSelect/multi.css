@@ -1,10 +1,45 @@
 .multi-select {
     background-color: var(--component-base-color);
     display: flex;
+    flex-wrap: wrap;
     border-radius: var(--component-border-radius);
     color: var(--component-foreground);
     gap: 0.25rem;
     padding: 0.25rem;
+}
+
+.multi-select-popup-visible {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.multi-select-popup-option {
+    padding: 0.25rem;
+    user-select: none;
+}
+
+.multi-select-popup-option:hover {
+    background-color: var(--component-hover-background);
+}
+
+.multi-select-option {
+    border-radius: var(--component-border-radius);
+    background-color: var(--component-hover-background);
+    display: flex;
+    gap: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    user-select: none;
+    line-height: normal;
+}
+
+.multi-select-option-remove {
+    cursor: pointer;
+}
+
+.multi-select-input {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-size: 1rem;
 }
 
 .multi-select-popup {
