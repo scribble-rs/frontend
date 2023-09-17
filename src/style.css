@@ -1,5 +1,6 @@
 :root {
 	--component-base-color: #4485ff;
+	--component-foreground: rgb(238, 230, 230);
 	--component-hover-background: #5499f3;
 	--component-focus-background: #3a8ffd;
 	--outline--color: #1f6bf8;

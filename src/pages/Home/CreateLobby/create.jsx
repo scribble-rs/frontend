@@ -1,3 +1,4 @@
+import { MultiSelect } from "../../../components/MultiSelect/multi";
 import { NumberInput } from "../../../components/NumberInput/number";
 import "./create.css"
 
@@ -41,12 +42,7 @@ export function CreateLobby(props) {
                 </div>
                 <form onSubmit={createLobby} id="lobby-create">
                     <span class="lobby-create-label">Language</span>
-                    <select class="input-item" name="language" placeholder="Choose your language">
-                        {/* FIXME Get languages from server */}
-                        <option value="english" selected>English (US)</option>
-                        <option value="english_gb" selected>English (GB)</option>
-                        <option value="german" selected>German</option>
-                    </select>
+                    <MultiSelect />
                     <span class="lobby-create-label">Drawing Time</span>
                     <NumberInput type="number" name="drawing_time" min="60" max="300" value="120" />
                     <span class="lobby-create-label">Rounds</span>
