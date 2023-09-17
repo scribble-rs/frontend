@@ -34,7 +34,6 @@ export function MultiSelect(props) {
         ]);
     };
     const selectOption = (option) => {
-        console.log(option);
         setSelectedOptions([...selectedOptions, option]);
         inputField.current.value = "";
         setPopupVisible(false);
@@ -66,7 +65,10 @@ export function MultiSelect(props) {
     };
 
     const inputFocusLost = (event) => {
-        if (!event.explicitOriginalTarget.classList.contains("multi-select-popup-option")) {
+        const classList = event.explicitOriginalTarget.classList;
+        if (!classList || (
+            !classList.contains("multi-select-popup-option")
+            && !classList.contains("multi-select-option-remove"))) {
             setPopupVisible(false);
         }
     };
@@ -81,6 +83,7 @@ export function MultiSelect(props) {
                             setSelectedOptions([...selectedOptions.filter((selectedOption) => {
                                 return selectedOption !== option;
                             })]);
+                            inputField.current.focus();
                         }}>x</span>
                     </div>;
                 })}
