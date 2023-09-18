@@ -14,7 +14,7 @@
 }
 
 .multi-select-popup-option {
-    padding: 0.25rem;
+    padding: 0.25rem 0.5rem;
     user-select: none;
 }
 
@@ -31,8 +31,7 @@
     background-color: var(--component-hover-background);
     display: flex;
     gap: 0.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding: 0 0.5rem;
     user-select: none;
     line-height: normal;
 }
@@ -46,17 +45,20 @@
     font-size: 1rem;
 }
 
+.multi-select-parent {
+    position: relative;
+}
+
 .multi-select-popup {
     background-color: var(--component-base-color);
     position: absolute;
     display: flex;
     flex-direction: column;
-    width: 20rem;
-    padding: 0.5rem;
+    width: 100%;
     border-bottom-left-radius: var(--component-border-radius);
     border-bottom-right-radius: var(--component-border-radius);
     color: var(--component-foreground);
-    box-shadow: 5px 5px 5px rgb(80, 80, 80), -5px 5px 5px rgb(80, 80, 80);
+    box-shadow: 3px 3px 3px rgb(80, 80, 80);
     max-height: 10rem;
     overflow-y: auto;
 }

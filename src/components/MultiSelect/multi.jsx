@@ -73,7 +73,7 @@ export function MultiSelect(props) {
     };
 
     return (
-        <>
+        <div class="multi-select-parent">
             <div class={(popupVisible ? "multi-select-popup-visible multi-select" : "multi-select")}>
                 {selectedOptions.map((option) => {
                     return <div class="multi-select-option">
@@ -95,22 +95,22 @@ export function MultiSelect(props) {
                     type="text"
                     placeholder={props.placeholder}
                     onKeyPress={submitOption} />
-                {
-                    popupVisible &&
-                    (<div class="multi-select-popup">
-                        {filteredOptions.map((option) => {
-                            return <div
-                                class="multi-select-popup-option"
-                                onClick={(event) => {
-                                    event.preventDefault();
-                                    selectOption(option);
-                                }}>
-                                {props.renderOptionDetailed(option)}
-                            </div>;
-                        })}
-                    </div>)
-                }
             </div>
-        </ >
+            {
+                popupVisible &&
+                (<div class="multi-select-popup">
+                    {filteredOptions.map((option) => {
+                        return <div
+                            class="multi-select-popup-option"
+                            onClick={(event) => {
+                                event.preventDefault();
+                                selectOption(option);
+                            }}>
+                            {props.renderOptionDetailed(option)}
+                        </div>;
+                    })}
+                </div>)
+            }
+        </div>
     );
 }
