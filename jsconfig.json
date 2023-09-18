@@ -5,9 +5,12 @@
 		"moduleResolution": "bundler",
 		"noEmit": true,
 		"allowJs": true,
-		"checkJs": true,
+		"checkJs": false,
 		"jsx": "react-jsx",
 		"jsxImportSource": "preact"
 	},
-	"include": ["node_modules/vite/client.d.ts", "**/*"]
+	"include": [
+		"node_modules/vite/client.d.ts",
+		"**/*"
+	]
 }
