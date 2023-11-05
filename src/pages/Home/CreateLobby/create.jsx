@@ -1,7 +1,10 @@
+import { useState } from "preact/hooks";
 import { NumberInput } from "../../../components/NumberInput/number";
 import "./create.css"
 
 export function CreateLobby(props) {
+    const [errors, setErrors] = useState([]);
+
     const createLobby = (event) => {
         // Prevent page refresh
         event.preventDefault();
@@ -19,15 +22,32 @@ export function CreateLobby(props) {
             credentials: 'include',
             method: 'POST',
         }).then((response) => {
-            if (response.status === 200 || response.status === 201) {
-                response.json().then((data) => {
-                    props.joinLobby(data.lobbyId);
-                });
+            switch (response.status) {
+                case 200:
+                case 201:
+                    response.json().then((data) => {
+                        // We do not clear the errors, since we navigate away.
+                        props.joinLobby(data.lobbyId);
+                    });
+                case 400:
+                    response.text().then((text) => {
+                        setErrors(text.split(";").flatMap((error) => {
+                            return { message: error };
+                        }));
+                    });
+                    break;
+                default:
+                    console.error(response);
+                    response.text().then((text) => {
+                        setErrors([{ message: text }]);
+                    }).catch(() => {
+                        setErrors([{ message: "Unknown error" }]);
+                    });
+                    break;
             }
 
-            // FIXME Catch error
         }).catch((error) => {
-            console.error(error);
+            setErrors([error]);
         });
 
         return true;
@@ -39,6 +59,13 @@ export function CreateLobby(props) {
                 <div class="home-choice-header">
                     <div class="home-choice-title">Create Lobby</div>
                 </div>
+                {errors.length > 0 &&
+                    <div class="lobby-create-errors">
+                        {errors.map((error) => {
+                            return <div class="error">{error.message}</div>
+                        })}
+                    </div>
+                }
                 <form onSubmit={createLobby} id="lobby-create">
                     <span class="lobby-create-label">Language</span>
                     <select class="input-item" name="language" placeholder="Choose your language">

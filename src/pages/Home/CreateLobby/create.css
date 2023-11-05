@@ -11,6 +11,15 @@
     font-weight: 600;
 }
 
+.lobby-create-errors {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: #ff6961;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
 .create-button {
     height: 2rem;
     flex: 1;
