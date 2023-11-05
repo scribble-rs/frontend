@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'preact/hooks';
-import clock from '../../../assets/clock.svg';
-import round from '../../../assets/round.svg';
-import user from '../../../assets/user.svg';
-import entrance from '../../../assets/entrance.svg';
+import clockIcon from '../../../assets/clock.svg';
+import roundIcon from '../../../assets/round.svg';
+import userIcon from '../../../assets/user.svg';
 import './join.css';
 import { ReloadSpinner } from '../../../components/ReloadSpinner/spinner';
-
 
 function getLobbies() {
     return new Promise((resolve, reject) => {
@@ -34,8 +32,6 @@ export function LobbyChooser(props) {
     };
     useEffect(refresh, []);
 
-    const [selectedLobby, setSelectedLobby] = useState(null);
-
     return (
         <div class="home-choice">
             <div class="home-choice-inner">
@@ -47,8 +43,6 @@ export function LobbyChooser(props) {
                     joinLobby={props.joinLobby}
                     error={error}
                     loading={loading}
-                    selectedLobby={selectedLobby}
-                    selectLobby={setSelectedLobby}
                     lobbies={lobbies} />
             </div>
         </div>
@@ -65,6 +59,14 @@ function languageToFlag(language) {
         case "german":
             return "🇩🇪";
     }
+}
+
+function removeLoading(event) {
+    event.target.classList.remove("loading");
+}
+
+function LobbyListIcon(props) {
+    return <img class="lobby-list-item-icon loading" src={props.src} loading={"lazy"} onLoad={removeLoading} />
 }
 
 function LobbyList(props) {
@@ -95,37 +97,44 @@ function LobbyList(props) {
     return (
         <div id="lobby-list">
             {props.lobbies.map((lobby) => {
+                const joinClickedLobby = () => {
+                    props.joinLobby(lobby.lobbyId);
+                };
                 return (
                     <div
                         title="Doubleclick to join lobby."
                         onClick={() => props.selectLobby(lobby.lobbyId)}
-                        onDblClick={() => props.joinLobby(lobby.lobbyId)}
-                        class={props.selectedLobby !== lobby.lobbyId ? "lobby-list-item" : "lobby-list-item selected"} >
+                        onDblClick={joinClickedLobby}
+                        class={"lobby-list-item"} >
 
                         <div class="lobby-list-rows">
-                            <div style="display: flex; align-items: center; gap:0.5rem">
+                            <div class="lobby-list-row">
                                 <span class="language-flag">{languageToFlag(lobby.wordpack)}</span>
-                                {lobby.customWords ? <span class="custom-tag">Custom</span> : null}
+                                {lobby.customWords ? <span class="custom-tag">Custom Words</span> : null}
+                                {lobby.state === "ongoing"
+                                    ? <span class="custom-tag">Ongoing</span>
+                                    : lobby.state === "gameOver"
+                                        ? <span class="custom-tag">Game Over</span>
+                                        : null}
                             </div>
 
-                            <div class="lobby-list-item-info-pair">
-                                <img class="lobby-list-item-icon" src={user} />
-                                <span>{lobby.playerCount}/{lobby.maxPlayers}</span>
-                            </div>
-                            <div class="lobby-list-item-info-pair" style="grid-row: 2;" >
-                                <img class="lobby-list-item-icon" src={round} />
-                                <span>{lobby.round}/{lobby.rounds}</span>
-                            </div>
-                            <div class="lobby-list-item-info-pair" style="grid-row: 2">
-                                <img class="lobby-list-item-icon" src={clock} />
-                                <span>{lobby.drawingTime}</span>
+                            <div class="lobby-list-row">
+                                <div class="lobby-list-item-info-pair">
+                                    <LobbyListIcon src={userIcon} />
+                                    <span>{lobby.playerCount}/{lobby.maxPlayers}</span>
+                                </div>
+                                <div class="lobby-list-item-info-pair" style="grid-row: 2;" >
+                                    <LobbyListIcon src={roundIcon} />
+                                    <span>{lobby.round}/{lobby.rounds}</span>
+                                </div>
+                                <div class="lobby-list-item-info-pair" style="grid-row: 2">
+                                    <LobbyListIcon src={clockIcon} />
+                                    <span>{lobby.drawingTime}</span>
+                                </div>
                             </div>
                         </div>
-                        {/* FIXME Replace words with iconography, saves us the
-                         effort to translate and looks less cluttered. */}
-                        {props.selectedLobby === lobby.lobbyId ?
-                            <img src={entrance} style="align-self: center; 	width: 2em; height: 2em;" /> :
-                            <span style="width: 2em; height: 2em;" />}
+
+                        <button onClick={joinClickedLobby} class="join-button">Join</button>
                     </div>
                 )
             })}
