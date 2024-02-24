@@ -1,4 +1,5 @@
 :root {
+	--pane-background: #eee5e9;
 	--component-base-color: #4485ff;
 	--component-hover-background: #5499f3;
 	--component-hover-lighter-background: #96c4ff;

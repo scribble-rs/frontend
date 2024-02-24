@@ -14,7 +14,7 @@
 
 #home-choices-or {
 	align-self: center;
-	background-color: rgb(238, 229, 233);
+	background-color: var(--pane-background);
 	padding: 0.5rem;
 	border-radius: 1.3rem;
 }
@@ -37,7 +37,7 @@
 }
 
 .home-choice {
-	background-color: rgb(238, 229, 233);
+	background-color: var(--pane-background);
 	padding: 1.5rem;
 	border-radius: 1.3rem;
 	overflow: hidden;

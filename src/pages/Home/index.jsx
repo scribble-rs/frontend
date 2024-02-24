@@ -10,7 +10,7 @@ function joinLobby(lobbyId) {
 export function Home() {
 	return (
 		<div class="home">
-			< img id="logo" src={logo} alt="Scribble.rs logo" />
+			<img id="logo" src={logo} alt="Scribble.rs logo" />
 
 			<div id="home-choices">
 				<CreateLobby joinLobby={joinLobby} />
