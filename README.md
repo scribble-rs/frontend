@@ -1,3 +1,5 @@
+**ARCHIVED, SINCE I CAN'T BE ARSED TO DO THIS IN PREACT ANYMORE. I WILL SALVAGE WHAT IS LEFT AND TRANSLATE IT INTO VANILLA JS.**
+
 This frontend aims to completly replace the old frontend, as it was a mix
 of SSR and dynamic rendering through inlnie vanilla JS. This new frontend
 aims to use a more modern approach of developing a web frontend, while trying
@@ -26,7 +28,7 @@ LOBBY_CLEANUP_INTERVAL=0
 Then run in the same directory you've placed the `.env` file in:
 
 ```shell
-go run github.com/scribble-rs/scribble.rs/cmd/scribblers
+go run github.com/scribble-rs/scribble.rs/cmd/scribblers@latest
 ```
 
 Alternatively, head to the scribble.rs repository and check out how to start
